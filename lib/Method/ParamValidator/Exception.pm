@@ -26,12 +26,13 @@ use overload q{""} => 'as_string', fallback => 1;
 has method   => (is => 'ro', required => 1);
 has filename => (is => 'ro', required => 1);
 has line     => (is => 'ro', required => 1);
+has field    => (is => 'ro', default  => sub { '' });
 
 sub as_string {
     my ($self) = @_;
 
-    return sprintf("%s(): %s (status: %s) file %s on line %d\n",
-                   $self->method, $self->reason, $self->status, $self->filename, $self->line);
+    return sprintf("%s(): %s %s (status: %s) file %s on line %d\n",
+                   $self->method, $self->reason, $self->field, $self->status, $self->filename, $self->line);
 }
 
 =head1 DESCRIPTION

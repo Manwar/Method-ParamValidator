@@ -239,10 +239,12 @@ sub is_ok {
         if ($method->{fields}->{$field}->{required}) {
             Method::ParamValidator::Exception::MissingRequiredParameter->throw({
                 method   => $key,
+                field    => sprintf("(%s)", $field),
                 filename => $caller[1],
                 line     => $caller[2] }) unless (exists $values->{$field});
             Method::ParamValidator::Exception::UndefinedRequiredParameter->throw({
                 method   => $key,
+                field    => sprintf("(%s)", $field),
                 filename => $caller[1],
                 line     => $caller[2] }) unless (defined $values->{$field});
         }
@@ -250,6 +252,7 @@ sub is_ok {
         my $f = $method->{fields}->{$field}->{object};
         Method::ParamValidator::Exception::FailedParameterCheckConstraint->throw({
             method   => $key,
+            field    => sprintf("(%s)", $field),
             filename => $caller[1],
             line     => $caller[2] }) if (defined $values->{$field} && !$f->valid($values->{$field}));
     }
