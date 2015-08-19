@@ -13,13 +13,13 @@ sub lookup { exists $LOCATION->{uc($_[0])} };
 $validator->add_field({ name => 'location', format => 's', check => \&lookup });
 $validator->add_method({ name => 'check_location', fields => { location => 1 }});
 
-eval { $validator->is_ok('check_location', { }); };
+eval { $validator->validate('check_location', { }); };
 like($@, qr/Missing required parameter/);
 
-eval { $validator->is_ok('check_location', { location => undef }); };
+eval { $validator->validate('check_location', { location => undef }); };
 like($@, qr/Undefined required parameter/);
 
-eval { $validator->is_ok('check_location', { location => 'X' }); };
+eval { $validator->validate('check_location', { location => 'X' }); };
 like($@, qr/Parameter failed check constraint/);
 
 done_testing();

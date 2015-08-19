@@ -13,25 +13,25 @@ $validator->add_field({ name => 'age',       format => 'd' });
 $validator->add_field({ name => 'sex',       format => 's' });
 $validator->add_method({ name => 'add_user', fields => { firstname => 1, lastname => 1, age => 1, sex => 0 }});
 
-eval { $validator->is_ok('get_xyz'); };
+eval { $validator->validate('get_xyz'); };
 like($@, qr/Invalid method name received/);
 
-eval { $validator->is_ok('add_user'); };
+eval { $validator->validate('add_user'); };
 like($@, qr/Missing parameters/);
 
-eval { $validator->is_ok('add_user', []); };
+eval { $validator->validate('add_user', []); };
 like($@, qr/Invalid parameters data structure/);
 
-eval { $validator->is_ok('add_user', { firstname => 'F', lastname => 'L', age => 'A' }); };
+eval { $validator->validate('add_user', { firstname => 'F', lastname => 'L', age => 'A' }); };
 like($@, qr/Parameter failed check constraint/);
 
-eval { $validator->is_ok('add_user', { firstname => 'F', lastname => 'L' }); };
+eval { $validator->validate('add_user', { firstname => 'F', lastname => 'L' }); };
 like($@, qr/Missing required parameter/);
 
-eval { $validator->is_ok('add_user', { firstname => 'F', lastname => undef }); };
+eval { $validator->validate('add_user', { firstname => 'F', lastname => undef }); };
 like($@, qr/Undefined required parameter/);
 
-eval { $validator->is_ok('add_user', { firstname => 'F' }); };
+eval { $validator->validate('add_user', { firstname => 'F' }); };
 like($@, qr/Missing required parameter/);
 
 done_testing();
