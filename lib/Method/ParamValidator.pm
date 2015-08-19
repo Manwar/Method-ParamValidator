@@ -55,25 +55,25 @@ supports two data types i.e. String and Integer.
     $validator->add_field({ name => 'sex',       type => 's' });
     $validator->add_method({ name => 'add_user', fields => { firstname => 1, lastname => 1, age => 1, sex => 0 }});
 
-    eval { $validator->is_ok('get_xyz'); };
+    eval { $validator->validate('get_xyz'); };
     like($@, qr/Invalid method name received/);
 
-    eval { $validator->is_ok('add_user'); };
+    eval { $validator->validate('add_user'); };
     like($@, qr/Missing parameters/);
 
-    eval { $validator->is_ok('add_user', []); };
+    eval { $validator->validate('add_user', []); };
     like($@, qr/Invalid parameters data structure/);
 
-    eval { $validator->is_ok('add_user', { firstname => 'F', lastname => 'L', age => 'A' }); };
+    eval { $validator->validate('add_user', { firstname => 'F', lastname => 'L', age => 'A' }); };
     like($@, qr/Parameter failed check constraint/);
 
-    eval { $validator->is_ok('add_user', { firstname => 'F', lastname => 'L' }); };
+    eval { $validator->validate('add_user', { firstname => 'F', lastname => 'L' }); };
     like($@, qr/Missing required parameter/);
 
-    eval { $validator->is_ok('add_user', { firstname => 'F', lastname => undef }); };
+    eval { $validator->validate('add_user', { firstname => 'F', lastname => undef }); };
     like($@, qr/Undefined required parameter/);
 
-    eval { $validator->is_ok('add_user', { firstname => 'F' }); };
+    eval { $validator->validate('add_user', { firstname => 'F' }); };
     like($@, qr/Missing required parameter/);
 
     done_testing();
@@ -82,10 +82,10 @@ supports two data types i.e. String and Integer.
 
 Sample configuration file in JSON format.
 
-    { "fields"  : [ { "name" : "firstname", "type" : "s" },
-                    { "name" : "lastname",  "type" : "s" },
-                    { "name" : "age",       "type" : "d" },
-                    { "name" : "sex",       "type" : "s" }
+    { "fields"  : [ { "name" : "firstname", "format" : "s" },
+                    { "name" : "lastname",  "format" : "s" },
+                    { "name" : "age",       "format" : "d" },
+                    { "name" : "sex",       "format" : "s" }
                   ],
       "methods" : [ { "name"  : "add_user",
                       "fields": { "firstname" : "1",  "lastname" : "1", "age": "1", "sex" : "0" }
@@ -101,25 +101,25 @@ Then you just need one line to get everything setup using the above configuratio
 
     my $validator = Method::ParamValidator->new({ config => "config.json" });
 
-    eval { $validator->is_ok('get_xyz'); };
+    eval { $validator->validate('get_xyz'); };
     like($@, qr/Invalid method name received/);
 
-    eval { $validator->is_ok('add_user'); };
+    eval { $validator->validate('add_user'); };
     like($@, qr/Missing parameters/);
 
-    eval { $validator->is_ok('add_user', []); };
+    eval { $validator->validate('add_user', []); };
     like($@, qr/Invalid parameters data structure/);
 
-    eval { $validator->is_ok('add_user', { firstname => 'F', lastname => 'L', age => 'A' }); };
+    eval { $validator->validate('add_user', { firstname => 'F', lastname => 'L', age => 'A' }); };
     like($@, qr/Parameter failed check constraint/);
 
-    eval { $validator->is_ok('add_user', { firstname => 'F', lastname => 'L' }); };
+    eval { $validator->validate('add_user', { firstname => 'F', lastname => 'L' }); };
     like($@, qr/Missing required parameter/);
 
-    eval { $validator->is_ok('add_user', { firstname => 'F', lastname => undef }); };
+    eval { $validator->validate('add_user', { firstname => 'F', lastname => undef }); };
     like($@, qr/Undefined required parameter/);
 
-    eval { $validator->is_ok('add_user', { firstname => 'F' }); };
+    eval { $validator->validate('add_user', { firstname => 'F' }); };
     like($@, qr/Missing required parameter/);
 
     done_testing();
@@ -137,10 +137,10 @@ It allows you to provide your own method for validating a field as shown below:
     my $LOCATION = { 'USA' => 1, 'UK' => 1 };
     sub lookup { exists $LOCATION->{uc($_[0])} };
 
-    $validator->add_field({ name => 'location', type => 's', check => \&lookup });
+    $validator->add_field({ name => 'location', format => 's', check => \&lookup });
     $validator->add_method({ name => 'check_location', fields => { location => 1 }});
 
-    eval { $validator->is_ok('check_location', { location => 'X' }); };
+    eval { $validator->validate('check_location', { location => 'X' }); };
     like($@, qr/Parameter failed check constraint/);
 
     done_testing();
@@ -148,7 +148,7 @@ It allows you to provide your own method for validating a field as shown below:
 The above can be achieved using the configuration file as shown below:
 
     { "fields"  : [
-                     { "name" : "location", "type" : "s", "source": [ "USA", "UK" ] }
+                     { "name" : "location", "format" : "s", "source": [ "USA", "UK" ] }
                   ],
       "methods" : [
                      { "name"  : "check_location", "fields": { "location" : "1" } }
@@ -163,7 +163,7 @@ Using the above configuration file test the code as below:
 
     my $validator = Method::ParamValidator->new({ config => "config.json" });
 
-    eval { $validator->is_ok('check_location', { location => 'X' }); };
+    eval { $validator->validate('check_location', { location => 'X' }); };
     like($@, qr/Parameter failed check constraint/);
 
     done_testing();
@@ -209,13 +209,13 @@ sub BUILD {
 
 =head1 METHODS
 
-=head2 is_ok($method_name, \%parameters)
+=head2 validate($method_name, \%parameters)
 
 Throws exception if validation fail.
 
 =cut
 
-sub is_ok {
+sub validate {
     my ($self, $key, $values) = @_;
 
     my @caller = caller(0);
@@ -296,7 +296,7 @@ sub query_param {
     my $query_param = '';
     foreach my $field (keys %{$method->{fields}}) {
         if (exists $method->{fields}->{$field}) {
-            my $_key = "&$key=%" . $self->get_field($field)->format;
+            my $_key = "&$field=%" . $self->get_field($field)->format;
             $query_param .= sprintf($_key, $values->{$field}) if defined $values->{$field};
         }
     }
