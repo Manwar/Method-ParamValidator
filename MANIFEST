@@ -5,6 +5,8 @@ lib/Method/ParamValidator/Exception/InvalidMethodName.pm
 lib/Method/ParamValidator/Exception/MissingParameters.pm
 lib/Method/ParamValidator/Exception/InvalidParameterDataStructure.pm
 lib/Method/ParamValidator/Exception/MissingRequiredParameter.pm
+lib/Method/ParamValidator/Exception/MissingMethodName.pm
+lib/Method/ParamValidator/Exception/MissingFieldName.pm
 lib/Method/ParamValidator/Exception/UndefinedRequiredParameter.pm
 lib/Method/ParamValidator/Exception/FailedParameterCheckConstraint.pm
 lib/Method/ParamValidator/Key/Method.pm

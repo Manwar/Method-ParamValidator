@@ -1,11 +1,11 @@
-package Method::ParamValidator::Key::Field;
+package Method::ParamValidator::Exception::MissingFieldName;
 
-$Method::ParamValidator::Key::Field::VERSION   = '0.01';
-$Method::ParamValidator::Key::Field::AUTHORITY = 'cpan:MANWAR';
+$Method::ParamValidator::Exception::MissingFieldName::VERSION   = '0.01';
+$Method::ParamValidator::Exception::MissingFieldName::AUTHORITY = 'cpan:MANWAR';
 
 =head1 NAME
 
-Method::ParamValidator::Key::Field - Represents 'parameter key field' for Method::ParamValidator.
+Method::ParamValidator::Exception::MissingFieldName - Handles 'missing field name' exception.
 
 =head1 VERSION
 
@@ -19,45 +19,14 @@ use Data::Dumper;
 use Moo;
 use namespace::clean;
 
-use Types::Standard qw(:all);
-use Method::ParamValidator::Key::Field::DataType qw(:all);
+has status => (is => 'ro', default => sub { 101 });
+has reason => (is => 'ro', default => sub { 'Missing field name.' });
 
-has 'name'    => (is => 'ro', isa => Str,          required  => 1);
-has 'format'  => (is => 'ro', isa => Str,          default   => sub { 's' });
-has 'check'   => (is => 'rw', isa => CodeRef,      predicate => 1);
-has 'source'  => (is => 'ro', isa => HashRef[Str], predicate => 1);
-has 'message' => (is => 'ro', isa => Str);
-
-sub str { !(defined $_[0] && $_[0] =~ /^\d+$/) };
-sub int {  (defined $_[0] && $_[0] =~ /^\d+$/) };
-
+with 'Method::ParamValidator::Exception';
 
 =head1 DESCRIPTION
 
-=head1 METHODS
-
-=head2 valid()
-
-=cut
-
-sub valid {
-    my ($self, $value) = @_;
-
-    if ($self->has_check) {
-        return $self->check->($value);
-    }
-    else {
-        if ($self->has_source && (keys %{$self->source})) {
-            return exists $self->source->{uc($value)};
-        }
-        elsif ($self->format eq 's') {
-            &str($value);
-        }
-        elsif ($self->format eq 'd') {
-            &int($value);
-        }
-    }
-}
+B<FOR INTERNAL USE ONLY>
 
 =head1 AUTHOR
 
@@ -78,7 +47,7 @@ bug as I make changes.
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Method::ParamValidator::Key::Field
+    perldoc Method::ParamValidator::Exception::MissingFieldName
 
 You can also look for information at:
 
@@ -142,4 +111,4 @@ OF THE PACKAGE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =cut
 
-1; # End of Method::ParamValidator::Key::Field
+1; # End of Method::ParamValidator::Exception::MissingFieldName

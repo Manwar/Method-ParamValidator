@@ -23,6 +23,8 @@ use Method::ParamValidator::Exception::InvalidMethodName;
 use Method::ParamValidator::Exception::MissingParameters;
 use Method::ParamValidator::Exception::InvalidParameterDataStructure;
 use Method::ParamValidator::Exception::MissingRequiredParameter;
+use Method::ParamValidator::Exception::MissingMethodName;
+use Method::ParamValidator::Exception::MissingFieldName;
 use Method::ParamValidator::Exception::UndefinedRequiredParameter;
 use Method::ParamValidator::Exception::FailedParameterCheckConstraint;
 
@@ -270,6 +272,26 @@ sub add_field {
     $self->{fields}->{$param->{name}} = Method::ParamValidator::Key::Field->new($param);
 }
 
+=head2 get_field($name)
+
+Returns an object of type L<Method::ParamValidator::Key::Field>, matching field name C<$name>.
+
+=cut
+
+sub get_field {
+    my ($self, $name) = @_;
+
+    my @caller = caller(0);
+    @caller = caller(2) if $caller[3] eq '(eval)';
+
+    Method::ParamValidator::Exception::MissingFieldName->throw({
+        method   => 'get_field',
+        filename => $caller[1],
+        line     => $caller[2] }) unless (defined $name);
+
+    return $self->{fields}->{$name};
+}
+
 =head2 add_method(\%param)
 
 Add method to the validator.
@@ -286,6 +308,26 @@ sub add_method {
     }
 
     $self->{methods}->{$param->{name}} = Method::ParamValidator::Key::Method->new($method);
+}
+
+=head2 get_method($name)
+
+Returns an object of type L<Method::ParamValidator::Key::Method>, matching method name C<$name>.
+
+=cut
+
+sub get_method {
+    my ($self, $name) = @_;
+
+    my @caller = caller(0);
+    @caller = caller(2) if $caller[3] eq '(eval)';
+
+    Method::ParamValidator::Exception::MissingMethodName->throw({
+        method   => 'get_method',
+        filename => $caller[1],
+        line     => $caller[2] }) unless (defined $name);
+
+    return $self->{methods}->{$name};
 }
 
 =head1 AUTHOR
