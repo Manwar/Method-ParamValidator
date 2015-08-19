@@ -260,6 +260,50 @@ sub is_ok {
     }
 }
 
+=head2 query_param($method, \%values)
+
+Returns the query param for the given method C<$method> and C<\%values>.
+
+=cut
+
+sub query_param {
+    my ($self, $key, $values) = @_;
+
+    my @caller = caller(0);
+    @caller = caller(2) if $caller[3] eq '(eval)';
+
+    Method::ParamValidator::Exception::MissingMethodName->throw({
+        method   => 'query_param',
+        filename => $caller[1],
+        line     => $caller[2] }) unless (defined $key);
+
+    Method::ParamValidator::Exception::InvalidMethodName->throw({
+        method   => $key,
+        filename => $caller[1],
+        line     => $caller[2] }) unless (exists $self->{methods}->{$key});
+
+    Method::ParamValidator::Exception::MissingParameters->throw({
+        method   => $key,
+        filename => $caller[1],
+        line     => $caller[2] }) unless (defined $values);
+
+    Method::ParamValidator::Exception::InvalidParameterDataStructure->throw({
+        method   => $key,
+        filename => $caller[1],
+        line     => $caller[2] }) unless (ref($values) eq 'HASH');
+
+    my $method = $self->{methods}->{$key};
+    my $query_param = '';
+    foreach my $field (keys %{$method->{fields}}) {
+        if (exists $method->{fields}->{$field}) {
+            my $_key = "&$key=%" . $self->get_field($field)->format;
+            $query_param .= sprintf($_key, $values->{$field}) if defined $values->{$field};
+        }
+    }
+
+    return $query_param;
+}
+
 =head2 add_field(\%param)
 
 Add field to the validator.
