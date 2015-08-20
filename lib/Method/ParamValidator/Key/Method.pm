@@ -28,6 +28,42 @@ has 'fields' => (is => 'ro', required => 1);
 
 B<FOR INTERNAL USE ONLY>
 
+=head1 METHODS
+
+=head2 name()
+
+Returns method name.
+
+=head2 get_fields()
+
+Returns ref to a list of object of type L<Method::ParamValidator::Key::Field>.
+
+=cut
+
+sub get_fields {
+    my ($self) = @_;
+
+    my $fields = [];
+    foreach my $key (keys %{$self->{fields}}) {
+        push @$fields, $self->{fields}->{$key}->{object};
+    }
+
+    return $fields;
+}
+
+=head2 is_required_field($name)
+
+Returns 0/1 whether the given field C<$name> is required.
+
+=cut
+
+sub is_required_field {
+    my ($self, $name) = @_;
+
+    return $self->{fields}->{$name}->{required};
+}
+
+
 =head1 AUTHOR
 
 Mohammad S Anwar, C<< <mohammad.anwar at yahoo.com> >>

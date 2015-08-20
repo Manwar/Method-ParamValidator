@@ -221,6 +221,11 @@ sub validate {
     my @caller = caller(0);
     @caller = caller(2) if $caller[3] eq '(eval)';
 
+    Method::ParamValidator::Exception::MissingMethodName->throw({
+        method   => 'validate',
+        filename => $caller[1],
+        line     => $caller[2] }) unless (defined $key);
+
     Method::ParamValidator::Exception::InvalidMethodName->throw({
         method   => $key,
         filename => $caller[1],
@@ -236,27 +241,29 @@ sub validate {
         filename => $caller[1],
         line     => $caller[2] }) unless (ref($values) eq 'HASH');
 
-    my $method = $self->{methods}->{$key};
-    foreach my $field (keys %{$method->{fields}}) {
-        if ($method->{fields}->{$field}->{required}) {
+    my $method = $self->get_method($key);
+    my $fields = $method->get_fields;
+    foreach my $field (@{$fields}) {
+        my $field_name = $field->name;
+        if ($method->is_required_field($field_name)) {
             Method::ParamValidator::Exception::MissingRequiredParameter->throw({
                 method   => $key,
-                field    => sprintf("(%s)", $field),
+                field    => sprintf("(%s)", $field_name),
                 filename => $caller[1],
-                line     => $caller[2] }) unless (exists $values->{$field});
+                line     => $caller[2] }) unless (exists $values->{$field_name});
             Method::ParamValidator::Exception::UndefinedRequiredParameter->throw({
                 method   => $key,
-                field    => sprintf("(%s)", $field),
+                field    => sprintf("(%s)", $field_name),
                 filename => $caller[1],
-                line     => $caller[2] }) unless (defined $values->{$field});
+                line     => $caller[2] }) unless (defined $values->{$field_name});
         }
 
-        my $f = $method->{fields}->{$field}->{object};
         Method::ParamValidator::Exception::FailedParameterCheckConstraint->throw({
             method   => $key,
-            field    => sprintf("(%s)", $field),
+            field    => sprintf("(%s)", $field_name),
             filename => $caller[1],
-            line     => $caller[2] }) if (defined $values->{$field} && !$f->valid($values->{$field}));
+            line     => $caller[2] })
+            if (defined $values->{$field_name} && !$field->valid($values->{$field_name}));
     }
 }
 
@@ -292,13 +299,13 @@ sub query_param {
         filename => $caller[1],
         line     => $caller[2] }) unless (ref($values) eq 'HASH');
 
-    my $method = $self->{methods}->{$key};
+    my $method = $self->get_method($key);
+    my $fields = $method->get_fields;
     my $query_param = '';
-    foreach my $field (keys %{$method->{fields}}) {
-        if (exists $method->{fields}->{$field}) {
-            my $_key = "&$field=%" . $self->get_field($field)->format;
-            $query_param .= sprintf($_key, $values->{$field}) if defined $values->{$field};
-        }
+    foreach my $field (@{$fields}) {
+        my $field_name = $field->name;
+        my $_key = "&$field_name=%" . $field->format;
+        $query_param .= sprintf($_key, $values->{$field_name}) if defined $values->{$field_name};
     }
 
     return $query_param;
