@@ -37,8 +37,7 @@ has 'config'  => (is => 'ro', predicate => 1);
 
 =head1 DESCRIPTION
 
-It provides easy way to validate method parameters.It currently only supports two
-supports two data types i.e. String and Integer.
+It provides easy way to validate method parameters.
 
 =head1 SYNOPSIS
 
@@ -49,11 +48,13 @@ supports two data types i.e. String and Integer.
     use Method::ParamValidator;
 
     my $validator = Method::ParamValidator->new;
-    $validator->add_field({ name => 'firstname', type => 's' });
-    $validator->add_field({ name => 'lastname',  type => 's' });
-    $validator->add_field({ name => 'age',       type => 'd' });
-    $validator->add_field({ name => 'sex',       type => 's' });
-    $validator->add_method({ name => 'add_user', fields => { firstname => 1, lastname => 1, age => 1, sex => 0 }});
+    $validator->add_field({ name => 'firstname', format => 's' });
+    $validator->add_field({ name => 'lastname',  format => 's' });
+    $validator->add_field({ name => 'age',       format => 'd' });
+    $validator->add_field({ name => 'sex',       format => 's' });
+
+    $validator->add_method({ name   => 'add_user',
+                             fields => { firstname => 1, lastname => 1, age => 1, sex => 0 }});
 
     eval { $validator->validate('get_xyz'); };
     like($@, qr/Invalid method name received/);
