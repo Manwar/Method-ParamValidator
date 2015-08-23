@@ -5,7 +5,7 @@ $Method::ParamValidator::AUTHORITY = 'cpan:MANWAR';
 
 =head1 NAME
 
-Method::ParamValidator - Automate method parameter validation.
+Method::ParamValidator - Configurable method parameter validator.
 
 =head1 VERSION
 
@@ -89,7 +89,11 @@ Sample configuration file in JSON format.
                     { "name" : "sex",       "format" : "s" }
                   ],
       "methods" : [ { "name"  : "add_user",
-                      "fields": { "firstname" : "1",  "lastname" : "1", "age": "1", "sex" : "0" }
+                      "fields": { "firstname" : "1",
+                                  "lastname"  : "1",
+                                  "age"       : "1",
+                                  "sex"       : "0"
+                                }
                     }
                   ]
     }
@@ -210,8 +214,9 @@ sub BUILD {
 
 =head1 METHODS
 
-=head2 validate($method_name, \%parameters)
+=head2 validate($method_name, \%params)
 
+Validates the given method C<$name> against the given parameters C<\%params>.
 Throws exception if validation fail.
 
 =cut
@@ -271,6 +276,7 @@ sub validate {
 =head2 query_param($method, \%values)
 
 Returns the query param for the given method C<$method> and C<\%values>.
+Throws exception if validation fail.
 
 =cut
 

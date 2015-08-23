@@ -5,7 +5,7 @@ $Method::ParamValidator::Key::Field::DataType::AUTHORITY = 'cpan:MANWAR';
 
 =head1 NAME
 
-Method::ParamValidator::Key::Field::DataType - Represents 'data types' for the field.
+Method::ParamValidator::Key::Field::DataType - Library of 'data types' for the field.
 
 =head1 VERSION
 

@@ -31,12 +31,9 @@ has 'message' => (is => 'ro', isa => Str);
 sub str { !(defined $_[0] && $_[0] =~ /^\d+$/) };
 sub int {  (defined $_[0] && $_[0] =~ /^\d+$/) };
 
-
 =head1 DESCRIPTION
 
-=head1 METHODS
-
-=head2 valid()
+B<FOR INTERNAL USE ONLY>.
 
 =cut
 
