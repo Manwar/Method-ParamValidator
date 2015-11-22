@@ -20,6 +20,9 @@ like($@, qr/Invalid parameters data structure/);
 eval { $validator->validate('add_user', { firstname => 'F', lastname => 'L', age => 'A' }); };
 like($@, qr/Parameter failed check constraint/);
 
+eval { $validator->validate('add_user', { firstname => 'F', lastname => 'L', age => 10, sex => 's' }); };
+like($@, qr/Parameter failed check constraint/);
+
 eval { $validator->validate('add_user', { firstname => 'F', lastname => 'L' }); };
 like($@, qr/Missing required parameter/);
 

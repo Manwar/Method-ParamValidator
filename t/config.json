@@ -3,7 +3,7 @@
        { "name" : "firstname", "format" : "s", "type": "Str" },
        { "name" : "lastname",  "format" : "s", "type": "Str" },
        { "name" : "age",       "format" : "d", "type": "Int" },
-       { "name" : "sex",       "format" : "s", "type": "Str" },
+       { "name" : "sex",       "format" : "s", "type": "Str", "source" : [ "m", "f" ]  },
        { "name" : "location",  "format" : "s", "type": "Str", "source" : [ "UK", "USA" ] }
    ],
    "methods" : [

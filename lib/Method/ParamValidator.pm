@@ -173,6 +173,94 @@ Using the above configuration file test the code as below:
 
     done_testing();
 
+=head2 Plug-n-Play with Moo package
+
+Lets start with a basic Moo package PlayMath.
+
+    package PlayMath;
+
+    use Moo;
+    use namespace::clean;
+
+    sub do {
+        my ($self, $param) = @_;
+
+        if ($param->{op} eq 'add') {
+           return ($param->{a} + $param->{b});
+        }
+        elsif ($param->{op} eq 'sub') {
+           return ($param->{a} - $param->{b});
+        }
+        elsif ($param->{op} eq 'mul') {
+           return ($param->{a} * $param->{b});
+        }
+    }
+
+    1;
+
+Now we need to create configuration file for the package PlayMath as below:
+
+    { "fields"  : [ { "name" : "op", "format" : "s", "source": [ "add", "sub", "mul" ] },
+                    { "name" : "a",  "format" : "d" },
+                    { "name" : "b",  "format" : "d" }
+                  ],
+      "methods" : [ { "name"  : "do",
+                      "fields": { "op" : "1",
+                                  "a"  : "1",
+                                  "b"  : "1"
+                                }
+                    }
+                  ]
+    }
+
+Finally plug the validator to the package PlayMath as below:
+
+    use Method::ParamValidator;
+
+    has 'validator' => (
+        is      => 'ro',
+        default => sub { Method::ParamValidator->new( config => "config.json") }
+    );
+
+    before [qw/do/] => sub {
+        my ($self, $param) = @_;
+
+        my $method = (caller(1))[3];
+        $method =~ /(.*)\:\:(.*)$/;
+        $self->validator->validate($2, $param);
+    };
+
+Here is unit test for the package PlayMath.
+
+    use strict; use warnings;
+    use Test::More;
+    use PlayMath;
+
+    my $math = PlayMath->new;
+
+    is($math->do({ op => 'add', a => 4, b => 2 }), 6);
+
+    is($math->do({ op => 'sub', a => 4, b => 2 }), 2);
+
+    is($math->do({ op => 'mul', a => 4, b => 2 }), 8);
+
+    eval { $math->do({ op => 'add' }) };
+    like($@, qr/Missing required parameter. \(a\)/);
+
+    eval { $math->do({ op => 'add', a => 1 }) };
+    like($@, qr/Missing required parameter. \(b\)/);
+
+    eval { $math->do({ op => 'x', a => 1, b => 2 }) };
+    like($@, qr/Parameter failed check constraint. \(op\)/);
+
+    eval { $math->do({ op => 'add', a => 'x', b => 2 }) };
+    like($@, qr/Parameter failed check constraint. \(a\)/);
+
+    eval { $math->do({ op => 'add', a => 1, b => 'x' }) };
+    like($@, qr/Parameter failed check constraint. \(b\)/);
+
+    done_testing();
+
 =cut
 
 sub BUILD {
@@ -204,12 +292,9 @@ sub BUILD {
         }
 
         foreach my $method (@{$config->{methods}}) {
-            # TODO: if method already defined then skip
             $self->add_method($method);
         }
     }
-
-    # TODO: throw exception if neither methods nor config passed in,
 }
 
 =head1 METHODS
@@ -327,6 +412,8 @@ Add field to the validator.
 sub add_field {
     my ($self, $param) = @_;
 
+    return if (exists $self->{fields}->{$param->{name}});
+
     $self->{fields}->{$param->{name}} = Method::ParamValidator::Key::Field->new($param);
 }
 
@@ -358,6 +445,8 @@ Add method to the validator.
 
 sub add_method {
     my ($self, $param) = @_;
+
+    return if (exists $self->{methods}->{$param->{name}});
 
     my $method = { name => $param->{name} };
     foreach my $field (keys %{$param->{fields}}) {
