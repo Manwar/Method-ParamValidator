@@ -405,7 +405,24 @@ sub query_param {
 
 =head2 add_field(\%param)
 
-Add field to the validator.
+Add field to the validator. Parameters are defined as below:
+
+    +---------+-----------------------------------------------------------------+
+    | Key     | Description                                                     |
+    +---------+-----------------------------------------------------------------+
+    |         |                                                                 |
+    | name    | Unique field name. Required.                                    |
+    |         |                                                                 |
+    | format  | Field data type. Optional, default is 's', other valid value    |
+    |         | is 'd'.                                                         |
+    |         |                                                                 |
+    | check   | Optional code ref to validate field value.                      |
+    |         |                                                                 |
+    | source  | Optional hashref to validate field value againsts.              |
+    |         |                                                                 |
+    | message | Optional field message.                                         |
+    |         |                                                                 |
+    +---------+-----------------------------------------------------------------+
 
 =cut
 
@@ -439,7 +456,18 @@ sub get_field {
 
 =head2 add_method(\%param)
 
-Add method to the validator.
+Add method to the validator. Parameters are defined as below:
+
+    +---------+-----------------------------------------------------------------+
+    | Key     | Description                                                     |
+    +---------+-----------------------------------------------------------------+
+    |         |                                                                 |
+    | name    | Method name.                                                    |
+    |         |                                                                 |
+    | fields  | Hash ref to list of fields e.g { field_1 => 1, field_2 => 0 }   |
+    |         | field_1 is required and field_2 is optional.                    |
+    |         |                                                                 |
+    +---------+-----------------------------------------------------------------+
 
 =cut
 
