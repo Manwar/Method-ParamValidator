@@ -37,7 +37,9 @@ has 'config'  => (is => 'ro', predicate => 1);
 
 =head1 DESCRIPTION
 
-It provides easy way to validate method parameters.
+It provides easy way to configure and validate method parameters. It is  going to
+help configure and validate all my packages WWW::Google::*.It is just a prototype
+as of now but will be extended as per the requirements.
 
 =head1 SYNOPSIS
 
@@ -219,7 +221,7 @@ Finally plug the validator to the package PlayMath as below:
 
     has 'validator' => (
         is      => 'ro',
-        default => sub { Method::ParamValidator->new( config => "config.json") }
+        default => sub { Method::ParamValidator->new(config => "config.json") }
     );
 
     before [qw/do/] => sub {
