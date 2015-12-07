@@ -26,7 +26,7 @@ like($@, qr/Parameter failed check constraint/);
 eval { $validator->validate('add_user', { firstname => 'F', lastname => 'L' }); };
 like($@, qr/Missing required parameter/);
 
-eval { $validator->validate('add_user', { firstname => 'F', lastname => undef }); };
+eval { $validator->validate('add_user', { firstname => 'F', lastname => undef, age => 10 }); };
 like($@, qr/Undefined required parameter/);
 
 eval { $validator->validate('add_user', { firstname => 'F' }); };

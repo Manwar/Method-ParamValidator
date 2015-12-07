@@ -1,15 +1,15 @@
 package Method::ParamValidator::Exception::MissingRequiredParameter;
 
-$Method::ParamValidator::Exception::MissingRequiredParameter::VERSION   = '0.01';
+$Method::ParamValidator::Exception::MissingRequiredParameter::VERSION   = '0.02';
 $Method::ParamValidator::Exception::MissingRequiredParameter::AUTHORITY = 'cpan:MANWAR';
 
 =head1 NAME
 
-Method::ParamValidator::Exception::MissingRequierdParameter - Handles 'missing required parameter' exception.
+Method::ParamValidator::Exception::MissingRequiredParameter - Handles 'missing required parameter' exception.
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 

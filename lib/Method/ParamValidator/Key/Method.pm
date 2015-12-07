@@ -1,6 +1,6 @@
 package Method::ParamValidator::Key::Method;
 
-$Method::ParamValidator::Key::Method::VERSION   = '0.01';
+$Method::ParamValidator::Key::Method::VERSION   = '0.02';
 $Method::ParamValidator::Key::Method::AUTHORITY = 'cpan:MANWAR';
 
 =head1 NAME
@@ -9,7 +9,7 @@ Method::ParamValidator::Key::Method - Represents 'parameter key method' for Meth
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
@@ -44,7 +44,7 @@ sub get_fields {
     my ($self) = @_;
 
     my $fields = [];
-    foreach my $key (keys %{$self->{fields}}) {
+    foreach my $key (sort keys %{$self->{fields}}) {
         push @$fields, $self->{fields}->{$key}->{object};
     }
 

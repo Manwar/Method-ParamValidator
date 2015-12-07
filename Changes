@@ -1,4 +1,7 @@
 Revision history for Method::ParamValidator
 
-0.01  Sun Dec 06 02:15:00 2015
-      - Module Created.
+0.02   Mon Dec 07 11:10:00 2015
+       - Fixed issue RT: 110110 raised by SREZIC.
+
+0.01   Sun Dec 06 02:15:00 2015
+       - Module Created.
