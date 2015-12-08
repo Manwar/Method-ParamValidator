@@ -23,6 +23,7 @@ WriteMakefile(
         'JSON'             => 0,
         'Moo'              => 0,
         'Moo::Role'        => 0,
+        'Type::Tiny'       => 0,
         'namespace::clean' => 0,
         'Throwable'        => 0,
     },
