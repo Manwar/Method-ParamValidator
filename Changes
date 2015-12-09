@@ -1,5 +1,8 @@
 Revision history for Method::ParamValidator
 
+0.04   Wed Dec 09 10:40:00 2015
+       - Fixed code in the pod section "SYNOPSIS" of the package Method::ParamValidator.
+
 0.03   Tue Dec 08 10:35:00 2015
        - Fixed issue RT: 110111 raised by SREZIC.
 

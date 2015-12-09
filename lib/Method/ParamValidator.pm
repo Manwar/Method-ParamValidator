@@ -1,6 +1,6 @@
 package Method::ParamValidator;
 
-$Method::ParamValidator::VERSION   = '0.03';
+$Method::ParamValidator::VERSION   = '0.04';
 $Method::ParamValidator::AUTHORITY = 'cpan:MANWAR';
 
 =head1 NAME
@@ -9,7 +9,7 @@ Method::ParamValidator - Configurable method parameter validator.
 
 =head1 VERSION
 
-Version 0.03
+Version 0.04
 
 =cut
 
@@ -73,7 +73,7 @@ as of now but will be extended as per the requirements.
     eval { $validator->validate('add_user', { firstname => 'F', lastname => 'L' }); };
     like($@, qr/Missing required parameter/);
 
-    eval { $validator->validate('add_user', { firstname => 'F', lastname => undef }); };
+    eval { $validator->validate('add_user', { firstname => 'F', lastname => undef, age => 10 }); };
     like($@, qr/Undefined required parameter/);
 
     eval { $validator->validate('add_user', { firstname => 'F' }); };
@@ -123,7 +123,7 @@ Then you just need one line to get everything setup using the above configuratio
     eval { $validator->validate('add_user', { firstname => 'F', lastname => 'L' }); };
     like($@, qr/Missing required parameter/);
 
-    eval { $validator->validate('add_user', { firstname => 'F', lastname => undef }); };
+    eval { $validator->validate('add_user', { firstname => 'F', lastname => undef, age => 10 }); };
     like($@, qr/Undefined required parameter/);
 
     eval { $validator->validate('add_user', { firstname => 'F' }); };

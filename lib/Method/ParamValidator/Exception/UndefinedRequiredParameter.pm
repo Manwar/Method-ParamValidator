@@ -1,6 +1,6 @@
 package Method::ParamValidator::Exception::UndefinedRequiredParameter;
 
-$Method::ParamValidator::Exception::UndefinedRequiredParameter::VERSION   = '0.03';
+$Method::ParamValidator::Exception::UndefinedRequiredParameter::VERSION   = '0.04';
 $Method::ParamValidator::Exception::UndefinedRequiredParameter::AUTHORITY = 'cpan:MANWAR';
 
 =head1 NAME
@@ -9,7 +9,7 @@ Method::ParamValidator::Exception::UndefinedRequiredParameter - Handles 'undefin
 
 =head1 VERSION
 
-Version 0.03
+Version 0.04
 
 =cut
 
