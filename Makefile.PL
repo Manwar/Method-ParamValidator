@@ -11,7 +11,6 @@ WriteMakefile(
     VERSION_FROM       => 'lib/Method/ParamValidator.pm',
     ABSTRACT_FROM      => 'lib/Method/ParamValidator.pm',
     LICENSE            => 'artistic_2',
-    PL_FILES           => {},
     MIN_PERL_VERSION   => 5.006,
     CONFIGURE_REQUIRES => {
         'ExtUtils::MakeMaker' => 0,
@@ -21,10 +20,10 @@ WriteMakefile(
     },
     PREREQ_PM => {
         'JSON'             => 0,
-        'Moo'              => 0,
-        'Moo::Role'        => 0,
+        'Moo'              => '2.000000',
+        'Moo::Role'        => '2.000000',
+        'namespace::clean' => '0.24',
         'Type::Tiny'       => 0,
-        'namespace::clean' => 0,
         'Throwable'        => 0,
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
@@ -34,8 +33,8 @@ WriteMakefile(
         resources => {
             repository => {
                 type => 'git',
-                url  => 'https://github.com/Manwar/Method-ParamValidator.git',
-                web  => 'https://github.com/Manwar/Method-ParamValidator',
+                url  => 'https://github.com/manwar/Method-ParamValidator.git',
+                web  => 'https://github.com/manwar/Method-ParamValidator',
             },
         }})
      : ()

@@ -1,6 +1,6 @@
 package Method::ParamValidator::Key::Field;
 
-$Method::ParamValidator::Key::Field::VERSION   = '0.05';
+$Method::ParamValidator::Key::Field::VERSION   = '0.06';
 $Method::ParamValidator::Key::Field::AUTHORITY = 'cpan:MANWAR';
 
 =head1 NAME
@@ -9,7 +9,7 @@ Method::ParamValidator::Key::Field - Represents 'parameter key field' for Method
 
 =head1 VERSION
 
-Version 0.05
+Version 0.06
 
 =cut
 
@@ -62,7 +62,7 @@ Mohammad S Anwar, C<< <mohammad.anwar at yahoo.com> >>
 
 =head1 REPOSITORY
 
-L<https://github.com/Manwar/Method-ParamValidator>
+L<https://github.com/manwar/Method-ParamValidator>
 
 =head1 BUGS
 

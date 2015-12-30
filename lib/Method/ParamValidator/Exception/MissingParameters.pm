@@ -1,6 +1,6 @@
 package Method::ParamValidator::Exception::MissingParameters;
 
-$Method::ParamValidator::Exception::MissingParameters::VERSION   = '0.05';
+$Method::ParamValidator::Exception::MissingParameters::VERSION   = '0.06';
 $Method::ParamValidator::Exception::MissingParameters::AUTHORITY = 'cpan:MANWAR';
 
 =head1 NAME
@@ -9,7 +9,7 @@ Method::ParamValidator::Exception::MissingParameters - Handles 'missing paramete
 
 =head1 VERSION
 
-Version 0.05
+Version 0.06
 
 =cut
 
@@ -34,7 +34,7 @@ Mohammad S Anwar, C<< <mohammad.anwar at yahoo.com> >>
 
 =head1 REPOSITORY
 
-L<https://github.com/Manwar/Method-ParamValidator>
+L<https://github.com/manwar/Method-ParamValidator>
 
 =head1 BUGS
 

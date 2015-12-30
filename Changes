@@ -1,5 +1,8 @@
 Revision history for Method::ParamValidator
 
+0.06   Wed Dec 30 01:00:00 2015
+       - Attempted to fix the test failure reported by CPAN Testers.
+
 0.05   Thu Dec 10 10:40:00 2015
        - Fixed inconsistent versions.
 

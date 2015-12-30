@@ -1,6 +1,6 @@
 package Method::ParamValidator::Key::Field::DataType;
 
-$Method::ParamValidator::Key::Field::DataType::VERSION   = '0.05';
+$Method::ParamValidator::Key::Field::DataType::VERSION   = '0.06';
 $Method::ParamValidator::Key::Field::DataType::AUTHORITY = 'cpan:MANWAR';
 
 =head1 NAME
@@ -9,7 +9,7 @@ Method::ParamValidator::Key::Field::DataType - Library of 'data types' for the f
 
 =head1 VERSION
 
-Version 0.05
+Version 0.06
 
 =cut
 
@@ -30,7 +30,7 @@ Mohammad S Anwar, C<< <mohammad.anwar at yahoo.com> >>
 
 =head1 REPOSITORY
 
-L<https://github.com/Manwar/Method-ParamValidator>
+L<https://github.com/manwar/Method-ParamValidator>
 
 =head1 BUGS
 
