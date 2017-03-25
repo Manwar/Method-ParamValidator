@@ -1,5 +1,8 @@
 Revision history for Method::ParamValidator
 
+0.07   Sat Mar 25 12:55:00 2017
+       - Added key 'provides' to the Makefile.PL script.
+
 0.06   Wed Dec 30 01:00:00 2015
        - Attempted to fix the test failure reported by CPAN Testers.
 
