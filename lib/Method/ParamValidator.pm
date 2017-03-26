@@ -1,6 +1,6 @@
 package Method::ParamValidator;
 
-$Method::ParamValidator::VERSION   = '0.07';
+$Method::ParamValidator::VERSION   = '0.08';
 $Method::ParamValidator::AUTHORITY = 'cpan:MANWAR';
 
 =head1 NAME
@@ -9,7 +9,7 @@ Method::ParamValidator - Configurable method parameter validator.
 
 =head1 VERSION
 
-Version 0.07
+Version 0.08
 
 =cut
 

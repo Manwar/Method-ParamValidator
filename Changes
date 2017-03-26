@@ -1,5 +1,8 @@
 Revision history for Method::ParamValidator
 
+0.08   Sun Mar 26 03:15:00 2017
+       - Added test scripts (t/meta-json.t and t/meta-yml.t).
+
 0.07   Sat Mar 25 12:55:00 2017
        - Added key 'provides' to the Makefile.PL script.
 
