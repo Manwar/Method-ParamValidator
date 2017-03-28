@@ -1,5 +1,8 @@
 Revision history for Method::ParamValidator
 
+0.09   Tue Mar 28 12:35:00 2017
+       - Tidied up test scripts and removed "-T" switch.
+
 0.08   Sun Mar 26 03:15:00 2017
        - Added test scripts (t/meta-json.t and t/meta-yml.t).
 
