@@ -1,6 +1,6 @@
 package Method::ParamValidator::Key::Field;
 
-$Method::ParamValidator::Key::Field::VERSION   = '0.09';
+$Method::ParamValidator::Key::Field::VERSION   = '0.10';
 $Method::ParamValidator::Key::Field::AUTHORITY = 'cpan:MANWAR';
 
 =head1 NAME
@@ -9,7 +9,7 @@ Method::ParamValidator::Key::Field - Represents 'parameter key field' for Method
 
 =head1 VERSION
 
-Version 0.09
+Version 0.10
 
 =cut
 
@@ -27,6 +27,7 @@ has 'format'  => (is => 'ro', isa => Str,          default   => sub { 's' });
 has 'check'   => (is => 'rw', isa => CodeRef,      predicate => 1);
 has 'source'  => (is => 'ro', isa => HashRef[Str], predicate => 1);
 has 'message' => (is => 'ro', isa => Str);
+has 'multi'   => (is => 'ro');
 
 sub str { !(defined $_[0] && $_[0] =~ /^\d+$/) };
 sub int {  (defined $_[0] && $_[0] =~ /^\d+$/) };
@@ -45,6 +46,14 @@ sub valid {
     }
     else {
         if ($self->has_source && (keys %{$self->source})) {
+            my $separator = $self->multi;
+            if (defined $separator) {
+                # Check each against the source.
+                foreach (split /\Q$separator\E/, $value) {
+                    return 0 unless exists $self->source->{uc($_)};
+                }
+                return 1;
+            }
             return exists $self->source->{uc($value)};
         }
         elsif ($self->format eq 's') {

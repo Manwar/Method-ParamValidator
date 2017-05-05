@@ -1,5 +1,9 @@
 Revision history for Method::ParamValidator
 
+0.10   Fri May 05 11:25:00 2017
+       - Added support to field, can now have more than one value,
+         issue #2, raised against WWW::Google::Places.
+
 0.09   Tue Mar 28 12:35:00 2017
        - Tidied up test scripts and removed "-T" switch.
 

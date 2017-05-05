@@ -1,6 +1,6 @@
 package Method::ParamValidator::Exception::MissingRequiredParameter;
 
-$Method::ParamValidator::Exception::MissingRequiredParameter::VERSION   = '0.09';
+$Method::ParamValidator::Exception::MissingRequiredParameter::VERSION   = '0.10';
 $Method::ParamValidator::Exception::MissingRequiredParameter::AUTHORITY = 'cpan:MANWAR';
 
 =head1 NAME
@@ -9,7 +9,7 @@ Method::ParamValidator::Exception::MissingRequiredParameter - Handles 'missing r
 
 =head1 VERSION
 
-Version 0.09
+Version 0.10
 
 =cut
 
